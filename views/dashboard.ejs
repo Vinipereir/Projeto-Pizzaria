@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria</title>
+</head>
+<body>
+    <h2>Bem-vindo a nossa pizzaria, <%= usuario.nome %></h2>
+    <a href="/logout">Sair</a>
+
+    <h3>Cardápio de Pizzas</h3>
+    <form method="GET" action="/dashboard">
+        <input type="text" name="busca" placeholder="Buscar pizza por nome" value="<%= busca %>"/>
+        <button type="submit">Buscar</button>
+    </form>
+
+    <h3>Cadastrar Pizza</h3>
+    <form method="POST" action="/pizzas">
+        <input type="text" name="nome" placeholder="Nome da pizza" required />
+        <input type="number" name="preco" placeholder="Preço" step="0.01" required />
+        <input type="number" name="estoque" placeholder="Estoque inicial" required />
+        <button type="submit">Cadastrar Pizza</button>
+    </form>
+
+    <h3>Lista de Pizzas</h3>
+    <ul>
+        <% pizzas.forEach(function(pizza) { %>
+            <li>
+                <strong><%= pizza.nome %></strong> - R$ <%= pizza.preco %> - Estoque: <%= pizza.estoque %>
+                <form method="POST" action="/pizzas/delete/<%= pizza.id %>" style="display:inline;">
+                    <button type="submit">Excluir</button>
+                </form>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>

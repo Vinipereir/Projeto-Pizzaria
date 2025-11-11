@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisão SAEP- LOGIN</title>
+</head>
+<body>
+  <h2> 🍕 Login Pizzaria</h2>
+  <form action="/login" method="POST">
+<input type="email" name="email" placeholder="Digite seu email" required />
+<br />
+<input type="password" name="senha" placeholder="Digite sua senha" required />
+<br />
+<button type="submit">Entrar</button>
+  </form>
+<% if (error) { %>
+  <p style="color: red;">
+    <%= error %>
+</p>
+<% } %>
+
+</body>
+</html>  

@@ -24,6 +24,8 @@ app.use(session({
     saveUninitialized: true
 }));
 app.set('views', path.join(__dirname, 'views'));
+// configurar o motor de views (EJS)
+app.set('view engine', 'ejs');
 
 function proteger (req, res, next) {
     if (!req.session.usuario ) 
