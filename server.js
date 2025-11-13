@@ -11,7 +11,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pool = new Pool({
     user:"postgres",
     host:"localhost",
-    database:"pizzaria",
+    database:"cantina",
     password:"amods",
     port:7777
 });
@@ -19,7 +19,7 @@ const pool = new Pool({
 // configurações 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'pizzaria2025',
+    secret: 'cantina2025',
     resave: false,
     saveUninitialized: true
 }));
@@ -30,6 +30,12 @@ app.set('view engine', 'ejs');
 function proteger (req, res, next) {
     if (!req.session.usuario ) 
         return res.redirect('/');
+    next();
+}
+
+function protegerAdmin (req, res, next) {
+    if (!req.session.usuario || req.session.usuario.tipo !== 'admin') 
+        return res.status(403).send('Acesso negado: apenas administradores');
     next();
 }
 
@@ -57,49 +63,85 @@ app.get('/logout', (req, res) => {
 app.get('/dashboard', proteger, async (req, res) => {
     const busca = req.query.busca || '';
     const query = busca ?
-        'SELECT * FROM pizzas WHERE nome ILIKE $1 ORDER BY id' :
-        'SELECT * FROM pizzas ORDER BY nome';
-    const pizzas = await pool.query(query, busca ? [`%${busca}%`] : []);
-    const vendas = await pool.query(`
-        SELECT v.id, u.nome AS usuario, p.nome AS pizza, v.quantidade,
-        TO_CHAR(v.data_venda, 'DD/MM/YYYY HH24:MI') AS data 
-        FROM vendas v
-        JOIN usuarios u ON v.usuario_id = u.id 
-        JOIN pizzas p ON v.pizza_id = p.id 
-        ORDER BY v.data_venda DESC LIMIT 5
+        'SELECT * FROM foods WHERE name ILIKE $1 ORDER BY id' :
+        'SELECT * FROM foods ORDER BY name';
+    const foods = await pool.query(query, busca ? [`%${busca}%`] : []);
+    const pedidos = await pool.query(`
+        SELECT p.id, u.nome AS usuario, f.name AS comida, ip.quantidade,
+        TO_CHAR(p.data_pedido, 'DD/MM/YYYY HH24:MI') AS data 
+        FROM pedidos p
+        JOIN usuarios u ON p.usuario_id = u.id 
+        JOIN itens_pedido ip ON ip.pedido_id = p.id
+        JOIN foods f ON ip.food_id = f.id 
+        ORDER BY p.data_pedido DESC LIMIT 5
     `);
-    res.render('dashboard', { usuario: req.session.usuario, pizzas: pizzas.rows, vendas: vendas.rows, busca });
+    res.render('dashboard', { usuario: req.session.usuario, foods: foods.rows, pedidos: pedidos.rows, busca });
 });
 
-// cadastro de pizzas
-app.post('/pizzas', proteger, async (req, res) => {
-    const { nome, preco, estoque } = req.body;
-   if (!nome || !preco) return res.send (" prencha os campos obrigatórios ");
-   await pool.query('INSERT INTO pizzas (nome, preco, estoque) VALUES ($1, $2, $3)', [nome, preco, estoque]);
+// cadastro de foods (apenas admin)
+app.post('/foods', protegerAdmin, async (req, res) => {
+    const { name, descricao, preco, estoque } = req.body;
+   if (!name || !preco) return res.send (" prencha os campos obrigatórios ");
+   await pool.query('INSERT INTO foods (name, descricao, preco, estoque) VALUES ($1, $2, $3, $4)', [name, descricao, preco, estoque || 0]);
    res.redirect('/dashboard');
 });
 
-// atualizar pizza
-app.post("/pizzas/update/:id", proteger, async (req, res) => {
+// atualizar food (apenas admin)
+app.post("/foods/update/:id", protegerAdmin, async (req, res) => {
     const { id } = req.params;
-    const { nome, preco, estoque } = req.body;
-    await pool.query('UPDATE pizzas SET nome=$1, preco=$2, estoque=$3 WHERE id=$4', [nome, preco, estoque, id]);
+    const { name, descricao, preco, estoque } = req.body;
+    await pool.query('UPDATE foods SET name=$1, descricao=$2, preco=$3, estoque=$4 WHERE id=$5', [name, descricao, preco, estoque, id]);
     res.redirect('/dashboard');
 });
 
-// deletar pizza
-app.post("/pizzas/delete/:id", proteger, async (req, res) => {
+// deletar food (apenas admin)
+app.post("/foods/delete/:id", protegerAdmin, async (req, res) => {
     const { id } = req.params;
-    await pool.query('DELETE FROM pizzas WHERE id=$1', [id]);
+    await pool.query('DELETE FROM foods WHERE id=$1', [id]);
     res.redirect('/dashboard');
 });     
 
-//registrar venda
-app.post('/vendas', proteger, async (req, res) => {
-    const { pizza_id, quantidade } = req.body;
+//registrar pedido (users podem pedir)
+app.post('/pedidos', proteger, async (req, res) => {
+    const { food_id, quantidade } = req.body;
     const usuario_id = req.session.usuario.id;
-    await pool.query('INSERT INTO vendas (usuario_id, pizza_id, quantidade, data_venda) VALUES ($1, $2, $3, NOW())', [usuario_id, pizza_id, quantidade]);
-    await pool.query('UPDATE pizzas SET estoque = estoque - $1 WHERE id = $2', [quantidade, pizza_id]);
+    
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        
+        // Busca preço da comida
+        const food = await client.query('SELECT preco, estoque FROM foods WHERE id=$1', [food_id]);
+        if (food.rows.length === 0) throw new Error('Comida não encontrada');
+        
+        const preco = food.rows[0].preco;
+        const estoqueAtual = food.rows[0].estoque;
+        
+        if (estoqueAtual < quantidade) {
+            await client.query('ROLLBACK');
+            return res.send('Estoque insuficiente!');
+        }
+        
+        const subtotal = preco * quantidade;
+        
+        // Cria pedido
+        const pedido = await client.query('INSERT INTO pedidos (usuario_id, status, total) VALUES ($1, $2, $3) RETURNING id', [usuario_id, 'pendente', subtotal]);
+        const pedido_id = pedido.rows[0].id;
+        
+        // Adiciona item ao pedido
+        await client.query('INSERT INTO itens_pedido (pedido_id, food_id, quantidade, preco_unitario, subtotal) VALUES ($1, $2, $3, $4, $5)', [pedido_id, food_id, quantidade, preco, subtotal]);
+        
+        // Atualiza estoque
+        await client.query('UPDATE foods SET estoque = estoque - $1 WHERE id = $2', [quantidade, food_id]);
+        
+        await client.query('COMMIT');
+    } catch (e) {
+        await client.query('ROLLBACK');
+        throw e;
+    } finally {
+        client.release();
+    }
+    
     res.redirect('/dashboard');
 });
 
