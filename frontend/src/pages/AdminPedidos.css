@@ -1,0 +1,146 @@
+.admin-page {
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+  background: #1a1a1a;
+}
+
+.pedidos-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.pedido-card {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(255, 107, 53, 0.2);
+  animation: fadeInUp 0.5s ease;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.pedido-header h3 {
+  color: #ff6b35;
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  font-family: 'Georgia', serif;
+  font-style: italic;
+}
+
+.pedido-cliente {
+  color: #ccc;
+  margin: 5px 0;
+}
+
+.pedido-telefone {
+  color: #ccc;
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
+.pedido-status {
+  padding: 10px 20px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.pedido-info {
+  margin-bottom: 20px;
+}
+
+.pedido-info p {
+  margin: 8px 0;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+.pedido-itens {
+  background: rgba(255, 107, 53, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 107, 53, 0.3);
+}
+
+.pedido-itens h4 {
+  color: #ff6b35;
+  margin: 0 0 12px 0;
+}
+
+.item-linha {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.item-linha:last-child {
+  border-bottom: none;
+}
+
+.pedido-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 2px solid rgba(255, 107, 53, 0.3);
+}
+
+.pedido-total {
+  font-size: 1.3rem;
+  color: #f7931e;
+  font-weight: 700;
+}
+
+.status-select {
+  padding: 10px 15px;
+  border: 2px solid #ff6b35;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ff6b35;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  background: #1a1a1a;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #f7931e;
+}
+
+.empty-message {
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  padding: 100px 20px;
+}
+
+@media (max-width: 768px) {
+  .pedido-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .pedido-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .status-select {
+    width: 100%;
+  }
+}
