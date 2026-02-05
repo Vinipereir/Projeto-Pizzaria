@@ -46,25 +46,31 @@ function Login() {
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="seu@email.com"
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Senha</label>
+            <label htmlFor="senha">Senha</label>
             <input
+              id="senha"
               type="password"
               name="senha"
               value={formData.senha}
               onChange={handleChange}
               placeholder="••••••••"
+              autoComplete="current-password"
               required
             />
           </div>

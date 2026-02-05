@@ -66,11 +66,13 @@
   padding: 14px 18px;
   border: 2px solid rgba(255, 107, 53, 0.3);
   border-radius: 10px;
-  font-size: 1rem;
+  font-size: 16px;
   font-family: "Poppins", sans-serif;
   transition: border-color 0.3s ease;
   background: #1a1a1a;
   color: #fff;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-group input:focus {
@@ -222,17 +224,23 @@
   }
 
   .form-group input {
-    padding: 0.75rem 1rem;
-    font-size: 0.95rem;
+    padding: 12px 14px;
+    font-size: 16px;
+    min-height: 48px;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .form-group label {
     font-size: 0.9rem;
+    touch-action: manipulation;
   }
 
   .btn-submit {
-    padding: 0.75rem;
-    font-size: 1rem;
+    padding: 14px;
+    font-size: 16px;
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .auth-switch {
@@ -240,9 +248,16 @@
     margin-top: 1rem;
   }
 
+  .auth-switch a {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0.25rem;
+  }
+
   .error-message,
   .success-message {
     padding: 0.75rem;
     font-size: 0.9rem;
   }
+}
 }

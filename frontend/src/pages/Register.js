@@ -49,61 +49,73 @@ function Register() {
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label>Nome Completo *</label>
+            <label htmlFor="nome">Nome Completo *</label>
             <input
+              id="nome"
               type="text"
               name="nome"
               value={formData.nome}
               onChange={handleChange}
               placeholder="João Silva"
+              autoComplete="name"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Email *</label>
+            <label htmlFor="email">Email *</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="seu@email.com"
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
               required
             />
           </div>
 
           <div className="form-group">
-            <label>Senha *</label>
+            <label htmlFor="senha">Senha *</label>
             <input
+              id="senha"
               type="password"
               name="senha"
               value={formData.senha}
               onChange={handleChange}
               placeholder="••••••••"
+              autoComplete="new-password"
               required
               minLength="6"
             />
           </div>
 
           <div className="form-group">
-            <label>Telefone</label>
+            <label htmlFor="telefone">Telefone</label>
             <input
+              id="telefone"
               type="tel"
               name="telefone"
               value={formData.telefone}
               onChange={handleChange}
               placeholder="(11) 99999-9999"
+              autoComplete="tel"
             />
           </div>
 
           <div className="form-group">
-            <label>Endereço</label>
+            <label htmlFor="endereco">Endereço</label>
             <input
+              id="endereco"
               type="text"
               name="endereco"
               value={formData.endereco}
               onChange={handleChange}
               placeholder="Rua, número, bairro"
+              autoComplete="street-address"
             />
           </div>
 
