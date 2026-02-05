@@ -30,7 +30,7 @@ function Register() {
 
     try {
       await register(formData);
-      navigate('/cardapio');
+      navigate('/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Erro ao criar conta');
     } finally {
@@ -40,8 +40,11 @@ function Register() {
 
   return (
     <div className="auth-page">
+      <div className="auth-logo">
+        <h1 className="pizzaria-logo">🍕 Pizzaria Delícia</h1>
+      </div>
       <div className="auth-container">
-        <h2>📝 Cadastro</h2>
+        <h2>Cadastro</h2>
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit} className="auth-form">

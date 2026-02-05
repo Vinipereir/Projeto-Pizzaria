@@ -27,7 +27,7 @@ function Login() {
 
     try {
       await login(formData);
-      navigate('/cardapio');
+      navigate('/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Erro ao fazer login');
     } finally {
@@ -37,8 +37,11 @@ function Login() {
 
   return (
     <div className="auth-page">
+      <div className="auth-logo">
+        <h1 className="pizzaria-logo">🍕 Pizzaria Delícia</h1>
+      </div>
       <div className="auth-container">
-        <h2>🍕 Entrar</h2>
+        <h2>Entrar</h2>
         {error && <div className="error-message">{error}</div>}
         
         <form onSubmit={handleSubmit} className="auth-form">

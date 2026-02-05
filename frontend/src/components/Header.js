@@ -14,13 +14,13 @@ function Header() {
   const handleLogout = () => {
     logout();
     setShowDropdown(false);
-    navigate('/');
+    navigate('/login');
   };
 
   return (
     <header className="header">
       <div className="header-content">
-        <Link to="/" className="logo">
+        <Link to="/home" className="logo">
           <span className="logo-text">🍕 Pizzaria Delícia</span>
         </Link>
 
@@ -32,19 +32,28 @@ function Header() {
         </button>
 
         <nav className={`nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/home" className="nav-link">Home</Link>
           <Link to="/cardapio" className="nav-link">Cardápio</Link>
           <Link to="/sobre" className="nav-link">Sobre Nós</Link>
           {isAdmin() && <Link to="/admin" className="nav-link">Admin</Link>}
         </nav>
 
         <div className="user-section">
-          <button className="cart-button" onClick={() => navigate('/carrinho')}>
-            🛒
-            {getItemCount() > 0 && (
-              <span className="cart-badge">{getItemCount()}</span>
-            )}
-          </button>
+          {isAdmin() ? (
+            <button className="cart-button" onClick={() => navigate('/admin')}>
+              🔔
+              {getItemCount() > 0 && (
+                <span className="cart-badge">{getItemCount()}</span>
+              )}
+            </button>
+          ) : (
+            <button className="cart-button" onClick={() => navigate('/carrinho')}>
+              🛒
+              {getItemCount() > 0 && (
+                <span className="cart-badge">{getItemCount()}</span>
+              )}
+            </button>
+          )}
 
           {isAuthenticated() ? (
             <div className="user-menu">

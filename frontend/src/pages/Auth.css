@@ -1,29 +1,46 @@
 .auth-page {
-  min-height: calc(100vh - 80px);
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 2.5rem 1.25rem;
   background: #1a1a1a;
+}
+
+.auth-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pizzaria-logo {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ff6b35;
+  text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+  font-family: "Georgia", serif;
+  font-style: italic;
+  margin: 0;
+  animation: fadeInDown 0.8s ease;
 }
 
 .auth-container {
   background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-  border-radius: 20px;
-  padding: 50px;
-  max-width: 450px;
+  border-radius: 1.25rem;
+  padding: 3.125rem;
+  max-width: 28.125rem;
   width: 100%;
-  box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+  box-shadow: 0 1.25rem 3.75rem rgba(255, 107, 53, 0.3);
   animation: slideUp 0.5s ease;
-  border: 2px solid rgba(255, 107, 53, 0.3);
+  border: 0.125rem solid rgba(255, 107, 53, 0.3);
 }
 
 .auth-container h2 {
   color: #ff6b35;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   font-size: 2rem;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-style: italic;
 }
 
@@ -50,7 +67,7 @@
   border: 2px solid rgba(255, 107, 53, 0.3);
   border-radius: 10px;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: border-color 0.3s ease;
   background: #1a1a1a;
   color: #fff;
@@ -124,7 +141,18 @@
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(1.875rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1.875rem);
   }
   to {
     opacity: 1;
@@ -133,8 +161,12 @@
 }
 
 @media (max-width: 768px) {
+  .pizzaria-logo {
+    font-size: 2.5rem;
+  }
+
   .auth-container {
-    padding: 35px 25px;
+    padding: 2.1875rem 1.5625rem;
   }
 
   .auth-container h2 {
