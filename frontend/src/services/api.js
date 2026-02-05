@@ -3,6 +3,43 @@ import axios from 'axios';
 // Usar a URL do backend em produção ou localhost em desenvolvimento
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+console.log('API URL configurada:', API_URL);
+
+// Configurar timeout e interceptors
+axios.defaults.timeout = 30000;
+
+axios.interceptors.request.use(
+  (config) => {
+    console.log('Requisição:', config.method.toUpperCase(), config.url);
+    return config;
+  },
+  (error) => {
+    console.error('Erro na requisição:', error);
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  (response) => {
+    console.log('Resposta:', response.status, response.config.url);
+    return response;
+  },
+  (error) => {
+    console.error('Erro na resposta:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+      url: error.config?.url
+    });
+    
+    if (!error.response) {
+      error.message = 'Erro de conexão. Verifique sua internet ou aguarde o servidor iniciar (~30s).';
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
 // Configurar token nas requisições
 const setAuthToken = (token) => {
   if (token) {

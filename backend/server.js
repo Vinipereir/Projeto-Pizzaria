@@ -11,13 +11,28 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
-  process.env.FRONTEND_URL // URL do frontend na Vercel
+  'https://projeto-pizzaria-gules-three.vercel.app',
+  process.env.FRONTEND_URL
 ].filter(Boolean);
 
-app.use(cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permitir requisições sem origin (mobile apps, Postman, etc)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      callback(null, true);
+    } else {
+      console.log('Origin bloqueada:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,7 +47,16 @@ app.use('/api/pedidos', pedidosRoutes);
 
 // Rota de teste
 app.get('/', (req, res) => {
-  res.json({ message: 'API Pizzaria - Sistema funcionando!' });
+  res.json({ 
+    message: 'API Pizzaria - Sistema funcionando!',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || 'development'
+  });
+});
+
+// Rota de health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Tratamento de erro 404

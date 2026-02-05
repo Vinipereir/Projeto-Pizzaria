@@ -26,10 +26,26 @@ function Login() {
     setLoading(true);
 
     try {
+      console.log('Tentando fazer login...');
       await login(formData);
+      console.log('Login bem-sucedido!');
       navigate('/home');
     } catch (err) {
-      setError(err.response?.data?.message || 'Erro ao fazer login');
+      console.error('Erro no login:', err);
+      
+      let errorMessage = 'Erro ao fazer login';
+      
+      if (!err.response) {
+        errorMessage = 'Erro de conexão. Aguarde 30s e tente novamente (backend iniciando).';
+      } else if (err.response.status === 401) {
+        errorMessage = 'Email ou senha incorretos';
+      } else if (err.response?.data?.message) {
+        errorMessage = err.response.data.message;
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
