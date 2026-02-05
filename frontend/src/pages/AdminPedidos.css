@@ -130,17 +130,46 @@
 }
 
 @media (max-width: 768px) {
+  .admin-page {
+    padding: 20px 10px;
+  }
+
+  .pedido-card {
+    padding: 20px 15px;
+  }
+
   .pedido-header {
     flex-direction: column;
     gap: 15px;
+    align-items: flex-start;
+  }
+
+  .pedido-header h3 {
+    font-size: 1.2rem;
   }
 
   .pedido-footer {
     flex-direction: column;
     gap: 15px;
+    align-items: stretch;
   }
 
   .status-select {
     width: 100%;
+  }
+
+  .item-linha {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pedido-total {
+    font-size: 1.1rem;
+  }
+
+  .pedido-status {
+    padding: 8px 15px;
+    font-size: 0.85rem;
   }
 }

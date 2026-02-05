@@ -39,7 +39,7 @@ function Home() {
       </section>
 
       <section className="popular-section">
-        <h2 className="section-title">Por que escolher a Pizzaria Delícia?</h2>
+        <h2 className="section-title">Por Que Escolher a Pizzaria Delícia?</h2>
         <div className="features">
           <div className="feature-card">
             <div className="feature-icon">⭐</div>
