@@ -42,7 +42,7 @@
   box-shadow: 0 0.625rem 1.5625rem rgba(255, 107, 53, 0.4);
   transition: all 0.3s ease;
   margin-bottom: 1.875rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .add-button:hover {
@@ -56,9 +56,11 @@
 
 .pizzas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr));
   gap: 1.875rem;
   margin-bottom: 2.5rem;
+  padding: 0;
+  width: 100%;
 }
 
 .pizza-card {
@@ -150,7 +152,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .btn-edit {
@@ -216,7 +218,7 @@
   color: #ff6b35;
   margin-bottom: 1.5625rem;
   font-size: 2rem;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-style: italic;
 }
 
@@ -239,7 +241,7 @@
   border: 0.125rem solid rgba(255, 107, 53, 0.3);
   border-radius: 0.625rem;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: border-color 0.3s ease;
   background: #1a1a1a;
   color: #fff;
@@ -315,12 +317,12 @@
   .header h1 {
     font-size: 2.5rem;
   }
-  
+
   .pizzas-grid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
-  
+
   .modal {
     padding: 1.875rem 1.25rem;
     margin: 0.625rem;
@@ -409,7 +411,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .btn-edit {
@@ -476,7 +478,7 @@
   color: #ff6b35;
   margin-bottom: 25px;
   font-size: 2rem;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-style: italic;
 }
 
@@ -499,7 +501,7 @@
   border: 2px solid rgba(255, 107, 53, 0.3);
   border-radius: 10px;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: border-color 0.3s ease;
   background: #1a1a1a;
   color: #fff;
@@ -572,21 +574,28 @@
 /* Responsive */
 @media (max-width: 768px) {
   .App {
-    padding: 10px;
+    padding: 0.625rem;
   }
 
   .header h1 {
     font-size: 2.5rem;
   }
-  
+
   .pizzas-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 1.25rem;
+    padding: 0 0.625rem;
   }
-  
+
   .modal {
-    padding: 30px 20px;
-    margin: 10px;
+    padding: 1.875rem 1.25rem;
+    margin: 0.625rem;
+    max-width: 95%;
+  }
+
+  .modal h2 {
+    font-size: 1.7rem;
+    margin-bottom: 1.25rem;
   }
 
   .pizza-card {
@@ -594,15 +603,51 @@
     max-width: 100%;
   }
 
+  .pizza-footer {
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
   .add-button {
     width: 100%;
     justify-content: center;
   }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .admin-buttons {
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .admin-buttons button {
+    width: 100%;
+  }
+
+  .empty-state h2 {
+    font-size: 1.7rem;
+  }
+
+  .empty-state p {
+    font-size: 1.1rem;
+  }
 }
 
 @media (max-width: 480px) {
+  .App {
+    padding: 0.5rem;
+  }
+
   .modal {
-    padding: 20px 15px;
+    padding: 1.25rem 1rem;
+    margin: 0.5rem;
   }
 
   .modal h2 {
@@ -613,5 +658,51 @@
   .form-group textarea,
   .form-group select {
     font-size: 0.95rem;
+    padding: 0.625rem 0.75rem;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .pizzas-grid {
+    gap: 1rem;
+  }
+
+  .pizza-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .pizza-card p {
+    font-size: 0.9rem;
+  }
+
+  .pizza-price {
+    font-size: 1.3rem;
+  }
+
+  .btn-edit,
+  .btn-delete,
+  .btn-primary {
+    font-size: 0.85rem;
+    padding: 0.625rem 1rem;
+  }
+
+  .loading,
+  .error-message {
+    font-size: 1.2rem;
+    padding: 1.875rem;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .empty-state h2 {
+    font-size: 1.5rem;
+  }
+
+  .empty-state p {
+    font-size: 1rem;
   }
 }

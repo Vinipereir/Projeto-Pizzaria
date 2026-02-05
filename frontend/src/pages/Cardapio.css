@@ -10,7 +10,7 @@
   font-size: 3rem;
   margin-bottom: 10px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-style: italic;
 }
 
@@ -62,34 +62,52 @@
   padding: 100px 20px;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
+  .cardapio-page {
+    padding: 1.25rem;
+  }
+
   .page-title {
     font-size: 2.5rem;
+    margin-bottom: 0.625rem;
   }
 
   .page-subtitle {
     font-size: 1.1rem;
+    margin-bottom: 1.875rem;
   }
 
   .pizzas-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 1.25rem;
   }
 
-  .pizza-card {
-    max-width: 500px;
-    margin: 0 auto;
+  .pizza-footer {
+    flex-direction: column;
+    gap: 0.625rem;
+    align-items: stretch;
+  }
+
+  .btn-add {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
+  .cardapio-page {
+    padding: 0.9375rem;
+  }
+
   .page-title {
     font-size: 2rem;
   }
 
+  .page-subtitle {
+    font-size: 1rem;
+  }
+
   .btn-add {
-    padding: 10px 20px;
+    padding: 0.625rem 1.25rem;
     font-size: 0.9rem;
   }
 }

@@ -23,7 +23,7 @@
   color: #ff6b35;
   margin-bottom: 15px;
   font-size: 1.8rem;
-  font-family: 'Georgia', serif;
+  font-family: "Georgia", serif;
   font-style: italic;
 }
 
@@ -36,4 +36,41 @@
 .sobre-section strong {
   color: #f7931e;
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .sobre-page {
+    padding: 1.25rem;
+  }
+
+  .sobre-section {
+    padding: 1.25rem;
+  }
+
+  .sobre-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .sobre-section p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sobre-page {
+    padding: 0.9375rem;
+  }
+
+  .sobre-section {
+    padding: 1rem;
+  }
+
+  .sobre-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .sobre-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 }
