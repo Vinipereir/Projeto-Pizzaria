@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+// Usar a URL do backend em produção ou localhost em desenvolvimento
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Configurar token nas requisições
 const setAuthToken = (token) => {
